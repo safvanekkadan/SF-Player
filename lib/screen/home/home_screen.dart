@@ -25,7 +25,8 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-List <SongModel> startSongs =[];//store the list of songs fetched from the audio query
+List <SongModel> startSongs =[];
+//store the list of songs fetched from the audio query
 class _HomeScreenState extends State<HomeScreen> {
   //define audio Query plugin
   final  audioQuery = OnAudioQuery();
