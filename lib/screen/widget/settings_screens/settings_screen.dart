@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:music/screen/splash/splash_screen.dart';
 import 'package:music/screen/widget/settings_screens/reset.dart';
 import 'package:music/screen/widget/settings_screens/settings_about.dart';
 import 'package:music/screen/widget/settings_screens/settings_privacy.dart';
@@ -122,6 +123,7 @@ class SettingsScreen extends StatelessWidget {
                              TextButton(onPressed: (){
                               reset(context);
                               SongController.audioPlayer.stop();
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const SplashScreen(),), (route) => false);
                              }, child:const  Text("Yes",
                              style: TextStyle(color: Colors.red),
                              ),

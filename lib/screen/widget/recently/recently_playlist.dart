@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:music/controller/recentlycontroller.dart';
 import 'package:music/functions/recentlydb/recently.dart';
 import 'package:music/screen/lists/listview/listview.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 
 class RecentlyPlayedScreen extends StatefulWidget {
@@ -16,12 +18,9 @@ class _RecentlyPlayedScreenState extends State<RecentlyPlayedScreen> {
   static List<SongModel>recentSong =[];
 
   @override
-  void initState() {
-    RecentsongPlayed.getRecentSongs();
-    super.initState();
-  }
-  @override
+
   Widget build(BuildContext context) {
+    Provider.of<RecentlyPlayerController>(context).getrecentsong();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -57,13 +56,14 @@ class _RecentlyPlayedScreenState extends State<RecentlyPlayedScreen> {
               ],
             ),
             ),
-            Expanded(child: FutureBuilder(
-              future: RecentsongPlayed.getRecentSongs(),
-              builder: (context,items){
-                return ValueListenableBuilder(
-                  valueListenable:RecentsongPlayed.recentsongNotifier,
-                   builder: (context, List<SongModel> value, child) {
-                      if (value.isEmpty) {
+          Expanded(
+              child: FutureBuilder(
+                future: Provider.of<RecentlyPlayerController>(context,listen: false).getrecentsong(),
+                builder: (context, items) {
+                  return Consumer<RecentlyPlayerController>(
+                   
+                    builder: (context, renctvalue, child) {
+                      if ( renctvalue.recentList.isEmpty) {
                         return const Center(
                           child: Text(
                             'No Songs',
@@ -71,8 +71,7 @@ class _RecentlyPlayedScreenState extends State<RecentlyPlayedScreen> {
                           ),
                         );
                       } else {
-                        recentSong = value.reversed.toSet().toList();
-                        
+                        recentSong =  renctvalue.recentList.reversed.toSet().toList();
                         return FutureBuilder<List<SongModel>>(
                           future: audioQuery.querySongs(
                             sortType: null,
@@ -103,9 +102,8 @@ class _RecentlyPlayedScreenState extends State<RecentlyPlayedScreen> {
                     },
                   );
                 },
-             
-             ),
-           ),
+              ),
+            )
          ],
         ),
       ),

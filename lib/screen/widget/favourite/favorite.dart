@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:music/functions/favouritedb/favourite.dart';
+import 'package:music/controller/favouritecontroller.dart';
 import 'package:music/screen/lists/listview/listview.dart';
 import 'package:music/screen/home/home_screen.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 
 class FavoriteScreen extends StatelessWidget {
@@ -29,22 +29,24 @@ class FavoriteScreen extends StatelessWidget {
           ),
         ),
       ),
-      body:ValueListenableBuilder(valueListenable: FavouriteDb.favouriteSongs,
-       builder:(context,List<SongModel>favouriteData, Widget?child){
-        //list is empty, it displays a message saying "no data." Otherwise, it
-        // reverses the order of the songs in the list and removes any duplicate
-        if (favouriteData.isEmpty){
-          return const Center(
-           child: Text("no data",style: TextStyle(
-            color: Colors.black
-           ),),
-          );
-        }else{
-           final temb=favouriteData.reversed.toList();
-           favouriteData=temb.toSet().toList();
-           return ScreenListView(songModel: favouriteData);
-        }
-       })
+      body: Consumer<FavouriteController>(
+        
+        builder: (context,  favouriteData, Widget? child) {
+          if (favouriteData.favouriteSongs.isEmpty) {
+            return const Center(
+              child: Text(
+                'No data ',
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+
+          }else{
+           favouriteData.favouriteSongs.reversed.toList();
+            // favouriteData=favouriteData.favouriteSongs.toSet().toList();
+            return ScreenListView(songModel: favouriteData.favouriteSongs);
+          }
+        },
+      ),
     );
   }
 }

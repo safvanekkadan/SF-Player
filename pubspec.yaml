@@ -37,12 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   assets_sync: ^0.0.1+2
   bottom_navbar_player: ^0.1.0
-  on_audio_query: ^2.9.0
-  permission_handler: ^10.3.0
-  just_audio: ^0.9.34
+  on_audio_query: ^2.6.2
+  permission_handler: ^10.2.0
+  just_audio: ^0.9.31
   just_audio_background: ^0.0.1-beta.10
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  provider: ^6.0.5
   
   
 

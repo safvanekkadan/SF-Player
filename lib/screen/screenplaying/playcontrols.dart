@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music/functions/favouritedb/favourite.dart';
+import 'package:music/controller/favouritecontroller.dart';
+import 'package:music/screen/widget/favourite/favorite.dart';
 import 'package:music/screen/widget/playlists/playlist_dailogue.dart';
 import 'package:music/screen/widget/songcontroller/song_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 class PlayControls extends StatefulWidget {
   const PlayControls(
       {super.key,
@@ -42,15 +44,15 @@ class _PlayControlsState extends State<PlayControls> {
                   //The shuffle button, which toggles the shuffle mode on the audio player and displays a shuffle icon based on the shuffle state.
                   //The repeat button, which toggles between single-repeat and all-repeat modes and displays an appropriate icon based on the loop mode.
                   //The previous, play/pause, and next buttons for navigating through the playlist and controlling playback.
-                  ValueListenableBuilder(
-                      valueListenable: FavouriteDb.favouriteSongs,
-                      builder: (context, List<SongModel> favouriteData,
+                  Consumer<FavouriteController>(
+                      
+                      builder: (context, favouriteData,
                           Widget? child) {
                         return IconButton(
                           onPressed: () {
-                            if (FavouriteDb.isFavour(
+                            if (favouriteData.isFavour(
                                 widget.favouriteSongModel)) {
-                              FavouriteDb.delete(widget.favouriteSongModel.id);
+                              favouriteData.delete(widget.favouriteSongModel.id);
                               const remove = SnackBar(
                                 content: Text("remove from favourite"),
                                 duration: Duration(seconds: 1),
@@ -58,7 +60,7 @@ class _PlayControlsState extends State<PlayControls> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(remove);
                             } else {
-                              FavouriteDb.add(widget.favouriteSongModel);
+                              favouriteData.add(widget.favouriteSongModel);
                               const addfavourite = SnackBar(
                                 content: Text("Added to Favourite"),
                                 duration: Duration(seconds: 1),
@@ -69,7 +71,7 @@ class _PlayControlsState extends State<PlayControls> {
                             
                             
                           },
-                          icon: FavouriteDb.isFavour(widget.favouriteSongModel)
+                          icon: favouriteData.isFavour(widget.favouriteSongModel)
                               ?const  Icon(
                                   Icons.favorite,
                                   color: Colors.red,

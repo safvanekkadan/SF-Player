@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:music/functions/recentlydb/recently.dart';
+import 'package:music/controller/favouritecontroller.dart';
+import 'package:music/controller/recentlycontroller.dart';
 import 'package:music/screen/screenplaying/nowscreen.dart';
 import 'package:music/screen/widget/playlists/playlist_dailogue.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import '../../../functions/favouritedb/favourite.dart';
+import 'package:provider/provider.dart';
 import '../../widget/songcontroller/song_controller.dart';
 
 class ScreenListView extends StatefulWidget {
@@ -60,14 +61,14 @@ class _ScreenListViewState extends State<ScreenListView> {
                   PopupMenuItem(
                     child: Wrap(
                       children: [
-                        ValueListenableBuilder(
-                          valueListenable: FavouriteDb.favouriteSongs,
-                          builder: (context, List<SongModel> favouriteData,
+                        Consumer<FavouriteController>(
+                          
+                          builder: (context,  favouriteData,
                               Widget? child) {
                             return TextButton(
                               onPressed: () {
-                                if (FavouriteDb.isFavour(widget.songModel[index])) {
-                                  FavouriteDb.delete(widget.songModel[index].id);
+                                if (favouriteData.isFavour(widget.songModel[index])) {
+                                  favouriteData.delete(widget.songModel[index].id);
                                   const remove = SnackBar(
                                     content: Text('song removed from favourite'),
                                     duration: Duration(seconds: 1),
@@ -76,7 +77,7 @@ class _ScreenListViewState extends State<ScreenListView> {
                                       .showSnackBar(remove);
                                   Navigator.of(context).pop();
                                 } else {
-                                  FavouriteDb.add(widget.songModel[index]);
+                                  favouriteData.add(widget.songModel[index]);
                                   const favadd = SnackBar(
                                     content: Text('song added to favourite'),
                                     duration: Duration(seconds: 1),
@@ -87,7 +88,7 @@ class _ScreenListViewState extends State<ScreenListView> {
                                 }
                                 
                               },
-                              child: FavouriteDb.isFavour(widget.songModel[index])
+                              child: favouriteData.isFavour(widget.songModel[index])
                                   ? const Text('Remove from favourite')
                                   : const Text('Add to favourite'),
                             );
@@ -103,7 +104,7 @@ class _ScreenListViewState extends State<ScreenListView> {
                 SongController.createSongList(widget.songModel),
                 initialIndex: index,
               );
-              RecentsongPlayed.addRecentPlayedSong(widget.songModel[index].id);
+              Provider.of<RecentlyPlayerController>(context,listen: false).addrecentlyplayed(widget.songModel[index].id);
               Navigator.push(
                 context,
                 MaterialPageRoute(

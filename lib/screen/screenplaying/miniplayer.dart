@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 import 'package:music/functions/recentlydb/recently.dart';
 import 'package:music/screen/screenplaying/nowscreen.dart';
+import 'package:music/screen/widget/playlists/1playlist_screen.dart';
 import 'package:music/screen/widget/songcontroller/song_controller.dart';
 
 class MiniPLayer extends StatefulWidget {
@@ -82,10 +81,12 @@ class _MiniPLayerState extends State<MiniPLayer> {
                                   );
                                 } else {
                                   return Text(
+                                    
                                     SongController
                                         .playingsong[SongController
                                             .audioPlayer.currentIndex!]
                                         .displayNameWOExt,
+                                        
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
@@ -94,7 +95,8 @@ class _MiniPLayerState extends State<MiniPLayer> {
                                         fontWeight: FontWeight.bold),
                                   );
                                 }
-                              }),
+                              }
+                              ),
                           Text(
                             SongController
                                         .playingsong[SongController
@@ -156,10 +158,10 @@ class _MiniPLayerState extends State<MiniPLayer> {
                           });
                           if (SongController.audioPlayer.playing) {
                             await SongController.audioPlayer.pause();
-                            setState(() {});
+                             setState(() {});
                           } else {
                             await SongController.audioPlayer.play();
-                            setState(() {});
+                             setState(() {});
                           }
                         },
                         child: StreamBuilder<bool>(

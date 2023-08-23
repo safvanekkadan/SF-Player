@@ -11,7 +11,7 @@ class AboutScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("About",
+        title: const Text("About",
         style: TextStyle(
           color: Colors.black,
         ),),
@@ -19,13 +19,13 @@ class AboutScreen extends StatelessWidget {
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
 
-        }, icon:Icon(Icons.arrow_back,
+        }, icon:const Icon(Icons.arrow_back,
         color: Colors.black,
         ),
         ),
       ),
       body: SafeArea(child:
-      Padding(padding: EdgeInsets.symmetric(
+      Padding(padding: const EdgeInsets.symmetric(
         horizontal: 10
       ),
       child: Center(
@@ -40,9 +40,9 @@ class AboutScreen extends StatelessWidget {
           child: Column(
             children: [
               Expanded(child: ListView(
-                padding: EdgeInsets.all(10),
-                children: [
-                  Text(
+                padding: const EdgeInsets.all(10),
+                children: const[
+                   Text(
 '''Welcome to MUsic App, make your life more live.
 We are dedicated to providing you the very best
  quality of sound and the music varient,with an 
