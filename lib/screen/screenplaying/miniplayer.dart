@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:music/controller/miniplayercontrols.dart';
 import 'package:music/functions/recentlydb/recently.dart';
 import 'package:music/screen/screenplaying/nowscreen.dart';
 import 'package:music/screen/widget/playlists/1playlist_screen.dart';
 import 'package:music/screen/widget/songcontroller/song_controller.dart';
+import 'package:provider/provider.dart';
 
 class MiniPLayer extends StatefulWidget {
   const MiniPLayer({Key? key}) : super(key: key);
@@ -11,19 +13,19 @@ class MiniPLayer extends StatefulWidget {
   State<MiniPLayer> createState() => _MiniPLayerState();
 }
 
-bool firstSong = false;
-bool isPlaying = false;
+// bool firstSong = false;
+// bool isPlaying = false;
 
 class _MiniPLayerState extends State<MiniPLayer> {
   void iniState() {
     SongController.audioPlayer.currentIndexStream.listen((index) {
       if (index != null && mounted) {
-        setState(() {
-          //firstSong variable based on the current index of the song being played. 
-          //If the current index is 0,
-          // firstSong is set to true; otherwise, it is set to false.
-          index == 0 ? firstSong = true : firstSong = false;
-        });
+        // setState(() {
+        //   //firstSong variable based on the current index of the song being played. 
+        //   //If the current index is 0,
+        //   // firstSong is set to true; otherwise, it is set to false.
+        //   index == 0 ? firstSong = true : firstSong = false;
+        // });
       }
     });
     super.initState();
@@ -31,13 +33,14 @@ class _MiniPLayerState extends State<MiniPLayer> {
 
   @override
   Widget build(BuildContext context) {
+    final miniPlayerState=Provider.of<MiniPlayerStateProvider>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => NowScreenPLaying(
-                      songModel: SongController.playingsong,
+                  songModel: SongController.playingsong,
                     )));
       },
       child: Align(
@@ -118,7 +121,7 @@ class _MiniPLayerState extends State<MiniPLayer> {
                     ),
 
                     ////previous
-                    firstSong
+                    miniPlayerState.firstSong
                         ? const IconButton(
                             onPressed: null,
                             icon: Icon(Icons.skip_previous),
@@ -154,7 +157,7 @@ class _MiniPLayerState extends State<MiniPLayer> {
                         ),
                         onPressed: () async {
                           setState(()  {
-                            isPlaying = !isPlaying;
+                            miniPlayerState.isPlaying = !miniPlayerState.isPlaying;
                           });
                           if (SongController.audioPlayer.playing) {
                             await SongController.audioPlayer.pause();

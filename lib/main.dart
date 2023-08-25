@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:music/controller/favouritecontroller.dart';
+import 'package:music/controller/miniplayercontrols.dart';
+import 'package:music/controller/nowscreencontroller.dart';
+import 'package:music/controller/playcontrols.dart';
 import 'package:music/controller/providerhomescreen.dart';
 import 'package:music/controller/recentlycontroller.dart';
 import 'package:music/controller/searchprovider.dart';
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SearchScreenController(),),
         ChangeNotifierProvider(create: (context) => RecentlyPlayerController(),),
        ChangeNotifierProvider(create: (context) => FavouriteController(),),
+       ChangeNotifierProvider(create: (context)=>NowPlayingProvider()),
+       ChangeNotifierProvider(create: (context)=>PlayControlsStateProvider()),
+       ChangeNotifierProvider(create: (context)=>MiniPlayerStateProvider()),
       ],
     
       child: MaterialApp(
